@@ -8,5 +8,6 @@
     string? Description,
     DateTime CreatedOn,
     DateTime? CompletedOn,
-    string? RelatedUserFullName = null);
+    string? RelatedUserFirstName = null,
+    string? RelatedUserLastName = null);
 }
