@@ -6,6 +6,7 @@ namespace CarteiraDigital.Domain.Entities
     {
         public Guid Id { get; private set; }
         public User User { get; private set; }
+        public Guid UserId { get; private set; }
         public decimal Balance { get; private set; }
         public DateTime CreatedOn { get; private set; }
         public DateTime? UpdatedOn { get; private set; }
