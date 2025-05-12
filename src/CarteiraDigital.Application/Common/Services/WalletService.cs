@@ -31,8 +31,8 @@ namespace CarteiraDigital.Application.Common.Services
         {
             var wallet = await GetWalletByUserIdAsync(userId, cancellationToken);
 
-            var transaction = new Transaction(
-                wallet,
+            var transaction = Transaction.Create(
+                wallet.Id,
                 amount,
                 TransactionType.Deposit,
                 "Deposit to wallet");
@@ -68,19 +68,19 @@ namespace CarteiraDigital.Application.Common.Services
                 ?? throw new ArgumentException("Recipient user not found.");
             var toWallet = await GetWalletByUserIdAsync(toUserId, cancellationToken);
 
-            var sendTransaction = new Transaction(
-                fromWallet,
+            var sendTransaction = Transaction.Create(
+                fromWallet.Id,
                 amount,
                 TransactionType.Transfer,
                 description,
-                toWallet);
+                toWallet.Id);
 
-            var receiveTransaction = new Transaction(
-                toWallet,
+            var receiveTransaction = Transaction.Create(
+                toWallet.Id,
                 amount,
                 TransactionType.Transfer,
                 description,
-                fromWallet);
+                fromWallet.Id);
 
             try
             {

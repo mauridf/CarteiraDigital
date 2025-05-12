@@ -28,21 +28,24 @@
         public Wallet? RelatedWallet { get; private set; }
         public Guid RelatedWalletId { get; private set; }
 
-        public Transaction(
-            Wallet wallet,
-            decimal amount,
-            TransactionType type,
-            string? description = null,
-            Wallet? relatedWallet = null)
+        public static Transaction Create(
+        Guid walletId,
+        decimal amount,
+        TransactionType type,
+        string? description = null,
+        Guid? relatedWalletId = null)
         {
-            Id = Guid.NewGuid();
-            Wallet = wallet;
-            Amount = amount;
-            Type = type;
-            Status = TransactionStatus.Pending;
-            Description = description;
-            CreatedOn = DateTime.UtcNow;
-            RelatedWallet = relatedWallet;
+            return new Transaction
+            {
+                Id = Guid.NewGuid(),
+                WalletId = walletId,
+                Amount = amount,
+                Type = type,
+                Description = description,
+                RelatedWalletId = relatedWalletId ?? Guid.Empty,
+                Status = TransactionStatus.Pending,
+                CreatedOn = DateTime.UtcNow
+            };
         }
 
         public void Complete()

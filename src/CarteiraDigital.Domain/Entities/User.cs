@@ -1,11 +1,11 @@
-﻿namespace CarteiraDigital.Domain.Entities;
+﻿using CarteiraDigital.Domain.Entities;
 
 public class User
 {
     public Guid Id { get; private set; }
     public string FirstName { get; private set; }
     public string LastName { get; private set; }
-    public string FullName => $"{FirstName} {LastName}";
+    public string FullName { get; private set; }
     public string Email { get; private set; }
     public string PasswordHash { get; private set; }
     public DateTime CreatedOn { get; private set; }
@@ -20,14 +20,15 @@ public class User
         Email = email;
         PasswordHash = passwordHash;
         CreatedOn = DateTime.UtcNow;
-        Wallet = new Wallet(this);
+        UpdateFullName();
+        Wallet = Wallet.Create(Id);
     }
 
-    // Métodos para atualização
     public void UpdateName(string firstName, string lastName)
     {
         FirstName = firstName;
         LastName = lastName;
+        UpdateFullName();
         UpdatedOn = DateTime.UtcNow;
     }
 
@@ -35,5 +36,10 @@ public class User
     {
         PasswordHash = passwordHash;
         UpdatedOn = DateTime.UtcNow;
+    }
+
+    private void UpdateFullName()
+    {
+        FullName = $"{FirstName} {LastName}";
     }
 }

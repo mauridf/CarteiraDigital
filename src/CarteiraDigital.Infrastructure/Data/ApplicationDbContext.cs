@@ -47,11 +47,15 @@ namespace CarteiraDigital.Infrastructure.Data
 
             modelBuilder.Entity<Transaction>(entity =>
             {
-                entity.HasKey(t => t.Id);
                 entity.Property(t => t.Amount).IsRequired().HasColumnType("decimal(18,2)");
                 entity.Property(t => t.Type).IsRequired();
                 entity.Property(t => t.Status).IsRequired();
                 entity.Property(t => t.CreatedOn).IsRequired();
+
+                entity.HasOne(t => t.Wallet)
+                    .WithMany(w => w.Transactions)
+                    .HasForeignKey(t => t.WalletId)
+                    .OnDelete(DeleteBehavior.Restrict);
 
                 entity.HasOne(t => t.RelatedWallet)
                     .WithMany()

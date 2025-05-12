@@ -27,7 +27,8 @@ namespace CarteiraDigital.UnitTests.ApplicationTests
             // Arrange
             var userId = Guid.NewGuid();
             var user = new User("Test", "User", "test@example.com", "hashed_password");
-            var wallet = new Wallet(user) { Balance = 1000 };
+            var wallet = Wallet.Create(user.Id);
+            wallet.Balance = 1000;
 
             _userRepositoryMock.Setup(x => x.GetByIdAsync(userId, It.IsAny<CancellationToken>()))
                 .ReturnsAsync(user);
@@ -47,7 +48,7 @@ namespace CarteiraDigital.UnitTests.ApplicationTests
             // Arrange
             var userId = Guid.NewGuid();
             var user = new User("Test", "User", "test@example.com", "hashed_password");
-            var wallet = new Wallet(user);
+            var wallet = Wallet.Create(user.Id);
 
             _userRepositoryMock.Setup(x => x.GetByIdAsync(userId, It.IsAny<CancellationToken>()))
                 .ReturnsAsync(user);
@@ -73,8 +74,9 @@ namespace CarteiraDigital.UnitTests.ApplicationTests
             var fromUser = new User("From", "User", "from@example.com", "hashed_password");
             var toUser = new User("To", "User", "to@example.com", "hashed_password");
 
-            var fromWallet = new Wallet(fromUser) { Balance = 1000 };
-            var toWallet = new Wallet(toUser);
+            var fromWallet = Wallet.Create(fromUser.Id);
+            fromWallet.Balance = 1000;
+            var toWallet = Wallet.Create(toUser.Id);
 
             _userRepositoryMock.Setup(x => x.GetByIdAsync(fromUserId, It.IsAny<CancellationToken>()))
                 .ReturnsAsync(fromUser);

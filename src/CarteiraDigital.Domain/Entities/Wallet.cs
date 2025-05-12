@@ -1,6 +1,4 @@
-﻿using System.Transactions;
-
-namespace CarteiraDigital.Domain.Entities
+﻿namespace CarteiraDigital.Domain.Entities
 {
     public class Wallet
     {
@@ -12,12 +10,19 @@ namespace CarteiraDigital.Domain.Entities
         public DateTime? UpdatedOn { get; private set; }
         public ICollection<Transaction> Transactions { get; private set; } = new List<Transaction>();
 
-        public Wallet(User user)
+        // Construtor privado para o EF Core
+        private Wallet() { }
+
+        // Método factory para criação
+        public static Wallet Create(Guid userId)
         {
-            Id = Guid.NewGuid();
-            User = user;
-            Balance = 0;
-            CreatedOn = DateTime.UtcNow;
+            return new Wallet
+            {
+                Id = Guid.NewGuid(),
+                UserId = userId,
+                Balance = 0,
+                CreatedOn = DateTime.UtcNow
+            };
         }
 
         public void Deposit(decimal amount)
